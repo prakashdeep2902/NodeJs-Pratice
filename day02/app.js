@@ -2,7 +2,7 @@ import express from "express";
 import router from "./router.js";
 const app = express();
 
-app.use("/Api", router);
+app.use("/api", router);
 
 const PORT = 3000;
 
