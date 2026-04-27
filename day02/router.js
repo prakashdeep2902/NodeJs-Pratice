@@ -3,6 +3,6 @@ import { users } from "./user.js";
 
 const router = express();
 
-router.get("/get", users);
+router.get("/users", users);
 
 export default router;
