@@ -789,3 +789,208 @@ Then print:
 - body
 
 ---
+
+## Topic 6: Express.js Status Codes
+
+### What are Status Codes?
+
+Status codes are numbers sent by the server to tell the client:
+
+- Request successful?
+- Error occurred?
+- Unauthorized?
+- Data not found?
+
+They are part of the HTTP response.
+
+---
+
+# Common Status Code Categories
+
+| Range | Meaning       |
+| ----- | ------------- |
+| 1xx   | Informational |
+| 2xx   | Success       |
+| 3xx   | Redirection   |
+| 4xx   | Client Error  |
+| 5xx   | Server Error  |
+
+---
+
+# Most Important Status Codes
+
+---
+
+## 200 — OK
+
+Request successful.
+
+```js id="9b0zpm"
+res.status(200).send("Success");
+```
+
+Example:
+
+- Fetch products
+- Login success
+
+---
+
+## 201 — Created
+
+New resource created successfully.
+
+```js id="l1cd3u"
+res.status(201).json({
+  message: "User created",
+});
+```
+
+Used after:
+
+- signup
+- create product
+- add order
+
+---
+
+## 400 — Bad Request
+
+Client sent invalid data.
+
+```js id="k4a1fm"
+if (!email) {
+  return res.status(400).send("Email required");
+}
+```
+
+---
+
+## 401 — Unauthorized
+
+User not logged in / invalid token.
+
+```js id="pnjlpt"
+res.status(401).send("Unauthorized");
+```
+
+---
+
+## 403 — Forbidden
+
+User logged in but no permission.
+
+```js id="jpfq2x"
+res.status(403).send("Access denied");
+```
+
+---
+
+## 404 — Not Found
+
+Route or data not found.
+
+```js id="0h1trt"
+res.status(404).send("User not found");
+```
+
+---
+
+## 500 — Internal Server Error
+
+Backend/server crash or unexpected issue.
+
+```js id="3hktbq"
+res.status(500).send("Something went wrong");
+```
+
+---
+
+# How to Send Status Codes
+
+```js id="n2prci"
+res.status(200).send("OK");
+```
+
+or
+
+```js id="njlwmq"
+res.status(201).json({
+  success: true,
+});
+```
+
+---
+
+# Real Backend Example
+
+```js id="6qdu5q"
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "All fields required",
+    });
+  }
+
+  if (email !== "admin@gmail.com") {
+    return res.status(401).json({
+      message: "Invalid credentials",
+    });
+  }
+
+  res.status(200).json({
+    message: "Login success",
+  });
+});
+```
+
+---
+
+# Best Practices
+
+| Situation      | Status |
+| -------------- | ------ |
+| Data fetched   | 200    |
+| Data created   | 201    |
+| Invalid input  | 400    |
+| Not logged in  | 401    |
+| No permission  | 403    |
+| Data not found | 404    |
+| Server crash   | 500    |
+
+---
+
+# Mini Practice
+
+Create API:
+
+```text id="n4on77"
+POST /register
+```
+
+Rules:
+
+- If fields missing → `400`
+- If user already exists → `409`
+- Success → `201`
+
+---
+
+# 🎉 Day 2 Completed — Express.js Mastery
+
+You covered:
+
+✅ Express basics
+✅ Routing
+✅ Middleware
+✅ Request lifecycle
+✅ Params / Query / Body
+✅ Status codes
+
+You now understand the foundation of backend API development in Express.js.
+
+Next strong topics could be:
+
+Which topic would you like to study next?
