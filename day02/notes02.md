@@ -542,3 +542,250 @@ Body: { "name": "Prakash" }
 Try to explain full lifecycle step-by-step.
 
 ---
+
+## Topic 5: Express.js Params / Query / Body
+
+These are the main ways frontend sends data to backend.
+
+---
+
+# 1. Route Params (`req.params`)
+
+Used for identifying a specific resource.
+
+Example URL:
+
+```text id="xxwhui"
+/users/10
+```
+
+Here `10` is dynamic.
+
+---
+
+## Example
+
+```js id="rlajux"
+app.get("/users/:id", (req, res) => {
+  console.log(req.params);
+
+  res.send(`User ID is ${req.params.id}`);
+});
+```
+
+### If URL is:
+
+```text id="v8kiv8"
+/users/25
+```
+
+Then:
+
+```js id="q3m7lb"
+req.params = { id: "25" };
+```
+
+---
+
+## Multiple Params
+
+```js id="mkgjlwm"
+app.get("/products/:category/:id", (req, res) => {
+  res.json(req.params);
+});
+```
+
+URL:
+
+```text id="jl38ij"
+/products/mobile/5
+```
+
+Output:
+
+```js id="4a7v8k"
+{
+  category: "mobile",
+  id: "5"
+}
+```
+
+---
+
+# 2. Query Parameters (`req.query`)
+
+Used for:
+
+- filtering
+- searching
+- pagination
+- sorting
+
+Example:
+
+```text id="7d81kh"
+/products?category=mobile&page=2
+```
+
+---
+
+## Example
+
+```js id="bzlnfd"
+app.get("/products", (req, res) => {
+  console.log(req.query);
+
+  res.json(req.query);
+});
+```
+
+Result:
+
+```js id="s4cg1r"
+{
+  category: "mobile",
+  page: "2"
+}
+```
+
+---
+
+## Common Use Cases
+
+```text id="j3c0zq"
+/products?search=iphone
+/products?page=1&limit=10
+/products?sort=price
+```
+
+---
+
+# 3. Request Body (`req.body`)
+
+Used mainly in:
+
+- POST
+- PUT
+- PATCH
+
+Data comes from frontend in request body.
+
+---
+
+## IMPORTANT
+
+You must use JSON middleware:
+
+```js id="bx8my6"
+app.use(express.json());
+```
+
+Otherwise `req.body` will be undefined.
+
+---
+
+## Example
+
+```js id="n8o0yq"
+app.use(express.json());
+
+app.post("/users", (req, res) => {
+  console.log(req.body);
+
+  res.json({
+    message: "User created",
+    data: req.body,
+  });
+});
+```
+
+Frontend sends:
+
+```json id="e9ihji"
+{
+  "name": "Prakash",
+  "age": 22
+}
+```
+
+Then:
+
+```js id="i5y3gl"
+req.body = {
+  name: "Prakash",
+  age: 22,
+};
+```
+
+---
+
+# Difference Between Them
+
+| Feature  | Params        | Query          | Body         |
+| -------- | ------------- | -------------- | ------------ |
+| Location | URL path      | URL after `?`  | Request body |
+| Used For | Specific item | Filters/search | Sending data |
+| Example  | `/users/5`    | `?page=2`      | `{name:"A"}` |
+
+---
+
+# Real API Example
+
+```js id="0c6m4w"
+app.put("/products/:id", (req, res) => {
+  const productId = req.params.id;
+
+  const { name, price } = req.body;
+
+  const category = req.query.category;
+
+  res.json({
+    productId,
+    name,
+    price,
+    category,
+  });
+});
+```
+
+Request:
+
+```text id="axm6lg"
+PUT /products/10?category=mobile
+```
+
+Body:
+
+```json id="x9olc4"
+{
+  "name": "iPhone",
+  "price": 90000
+}
+```
+
+---
+
+## Mini Practice
+
+Create API:
+
+```text id="3h2bwu"
+POST /students/:id?course=node
+```
+
+Send body:
+
+```json id="4nhx9w"
+{
+  "name": "Prakash",
+  "city": "Mumbai"
+}
+```
+
+Then print:
+
+- params
+- query
+- body
+
+---
