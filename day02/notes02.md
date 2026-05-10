@@ -1,7 +1,5 @@
 ## Day 2 — Express.js Mastery
 
-Perfect. We’ll go **one topic at a time**, in order. After each topic, I’ll ask whether you want to move forward or practice first.
-
 ### Topic 1: Express.js Basics
 
 **Express.js** is a minimal and flexible web framework for **Node.js** used to build web servers and APIs quickly.
